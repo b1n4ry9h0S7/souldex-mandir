@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r123/three.js" integrity="sha512-8Yom5spEjD3HeZTNoDiOm4Y4Rn3RVKUFpiqTM4I3RIIO0u8e2m7XjT5rG1GQNHJlVcD9EZrzn+itENl4C6112A==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r123/three.min.js" integrity="sha512-Q+IG0h7As6sfqE2t1Xf5IeamNyCXb4EXxGCA9Mlbpv7xtwurVHNdVDbyWeSQ3ulPf2FRlqeu77Ec3SJDdIR63w==" crossorigin="anonymous"></script> -->
+
+    <title>Mandir</title>
+</head>
+<style>
+    body { 
+    margin: 0; 
+    height: 100vh;
+
+    background: #6441A5;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+align-items: center;
+justify-content: center;
+text-align: center;
+color: white;
+}
+  
+canvas { 
+    display: inline-block;
+}
+
+.text {
+    display: block;
+    position: absolute;
+    top: 2em;
+    left: 2em;
+    font-family: 'Montserrat';
+    /* font-size: 7em; */
+    text-transform: uppercase;
+    width: auto;
+    line-height: .8em;
+    border: 5px solid rgb(255, 255, 255);
+    padding: .2em;
+  }
+
+  p {
+    font-size: 2vh;
+  }
+
+  h1 {
+      font-size: 6vh;
+  }
+  .Soon {
+    /* display: block; */
+    position: absolute;
+    top: 4.5em;
+    left: 3em;
+    font-family: 'Montserrat';
+    font-size: 3vh;
+    text-transform: uppercase;
+    width: auto;
+    line-height: .8em;
+    padding: .2em;
+  }
+</style>
+    <body>
+        <div class="text">
+            <h1>Soul Dex</h1>
+            <p>A tribute to the greatest community member</p>
+        </div>
+        <div class="Soon">
+            <h2>COMING SOON</h2>
+        </div>
+        <canvas id="myCanvas"></canvas>
+    
+        <script src="three.js"></script>
+        <script src="GLTFLoader.js"></script>
+    
+        <script>
+    
+        var renderer,
+            scene,
+            camera,
+            myCanvas = document.getElementById('myCanvas');
+        var loader = new THREE.TextureLoader();
+        // var backgroundTexture = loader.load( 'https://i.imgur.com/upWSJlY.jpg' );
+        //RENDERER
+        renderer = new THREE.WebGLRenderer({
+          canvas: myCanvas, 
+          antialias: true, alpha:true
+        });
+        // renderer.setClearColor(0x000000);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    
+        //CAMERA
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000 );
+    
+        //SCENE
+        scene = new THREE.Scene();
+    
+        //LIGHTS
+        var light = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light);
+    
+        var light2 = new THREE.PointLight(0xffffff, 0.5);
+        scene.add(light2);
+        // var scene = new THREE.Scene(); // initialising the scene
+        // scene.background = backgroundTexture;
+      
+        var loader = new THREE.GLTFLoader();
+    
+        loader.load('./asset/scene.gltf', handle_load);
+    
+        var mesh;
+    
+        function handle_load(gltf) {
+    
+            console.log(gltf);
+            mesh = gltf.scene;
+            console.log(mesh.children[0]);
+            mesh.children[0].material = new THREE.MeshLambertMaterial();
+            scene.add( mesh );
+            mesh.position.z = -200;
+        }
+        //RENDER LOOP
+        render();
+    
+        var delta = 0;
+        var prevTime = Date.now();
+    
+        function render() {
+    
+            delta += 0.1;
+    
+            if (mesh) {
+                mesh.rotation.y += 0.05;
+            }
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+        }
+
+
+
+    
+        </script>
+</body>
+</html>
