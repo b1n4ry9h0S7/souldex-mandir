@@ -54,7 +54,7 @@ canvas {
     /* display: block; */
     position: absolute;
     top: 4.5em;
-    left: 3em;
+    left: 2em;
     font-family: 'Montserrat';
     font-size: 3vh;
     text-transform: uppercase;
@@ -66,7 +66,7 @@ canvas {
     <body>
         <div class="text">
             <h1>Soul Dex</h1>
-            <p>A tribute to the greatest community member</p>
+            <p>A tribute to the greatest among us!</p>
         </div>
         <div class="Soon">
             <h2>COMING SOON</h2>
@@ -140,7 +140,24 @@ canvas {
             requestAnimationFrame(render);
         }
 
+// Event Listeners
+// -----------------------------------------------------------------------------
+window.addEventListener( 'resize', onWindowResize, false );
 
+function onWindowResize( event ) {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    
+    // adjust the FOV
+    camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( window.innerHeight / windowHeight ) );
+    
+    camera.updateProjectionMatrix();
+    camera.lookAt( scene.position );
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.render( scene, camera );
+    
+}
 
     
         </script>
